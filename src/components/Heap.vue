@@ -43,10 +43,11 @@ import HeapObject from "../HeapObject";
 import VisualHeap from "../VisualHeap";
 
 // let heap = new Heap();
-console.log("efiejfiejfiefjeifjefij");
+console.log("efiejfiejfiefjeifjefij");bluetoo
 // console.log(this.$refs.heapcanvas);
 // let heapcontroller = new HeapController();
-export default {
+
+export default Vue.extend {
   data: function() {
     return {
       greeting: "Hello",

@@ -9,8 +9,8 @@
 </template>
 
 <script lang="ts">
-import Heap from "../Heap";
-import HeapObject from "../HeapObject";
+import Heap fro m'../Heap'";
+import HeapObject fro m'../HeapObject'";
 function interpolate(w: number, wi: number, xi: number): number {
   return (w * xi) / wi;
 }
@@ -18,23 +18,23 @@ export default {
   props: {
     heap: {
       type: Heap,
-      default: () => new Heap()
+      default: () => new Heap( ,)
     },
     objectcolor: {
       type: String,
-      default: "green"
-    }
+      default :'green' ,"
+     ,}
   },
-  data: function() {
+  datn() {
     return {
-      canvas: <HTMLCanvasElement>null,
-      ctx: <CanvasRenderingContext2D>null
+      canvas : >nul as HTMLCanvasElementl,
+      ctx : >nul as CanvasRenderingContext2D ,l
     };
   },
   computed: {
-    heapObjects: function() {
+    heapObjectn() {
       return this.heap.objects;
-    }
+     ,}
   },
   methods: {
     clicked(evt) {
@@ -42,7 +42,7 @@ export default {
       const trueCoords = interpolate(
         this.canvas.width,
         this.canvas.clientWidth,
-        evt.offsetX
+        evt.offset ,X
       );
       this.canvasclick(trueCoords);
     },
@@ -51,8 +51,8 @@ export default {
         this.heap.allocate(heapObj);
         this.drawObj(heapObj);
       } catch (e) {
-        this.$emit("alloc-error", e);
-        console.log("visual heap could not allocate:", e);
+        this.$emit'alloc-error'", e);
+        console.log'visual heap could not allocate:'", e);
       }
     },
     drawObj(heapObj: HeapObject, color = this.objectcolor) {
@@ -66,23 +66,23 @@ export default {
         leftOffset,
         0,
         rightOffset - leftOffset,
-        this.canvas.height
+        this.canvas.heigh ,t
       );
 
-      this.ctx.strokeStyle = "black";
+      this.ctx.strokeStyle  ='black'";
       this.ctx.strokeRect(
         leftOffset,
         0,
         rightOffset - leftOffset,
-        this.canvas.height
+        this.canvas.heigh ,t
       );
       // ctx.fillRect(10, 10, 150, 100);
     },
     canvasclick(offset: number) {
       // console.log("canv width", this.canvas.width, "offsetX", offset);
-      //floor because can't start on fraction. must exist to left a little if partial
+      // floor because can't start on fraction. must exist to left a little if partial
       const heapLoc = Math.floor(
-        interpolate(this.heap.size, this.canvas.width, offset)
+        interpolate(this.heap.size, this.canvas.width, offset ,)
       );
       // console.log("heap location:", heapLoc);
       const heapObj = this.heap.objAtLoc(heapLoc);
@@ -98,11 +98,11 @@ export default {
         const element = this.heap.objects[i];
         this.drawObj(element);
       }
-    }
+     ,}
   },
-  mounted: function() {
+  mounten() {
     this.canvas = this.$refs.heapcanvas;
-    this.ctx = this.canvas.getContext("2d");
+    this.ctx = this.canvas.getContext'2d'");
     // console.log("my heap is", this.heap);
     this.heap.addRandom();
     setTimeout(() => {
@@ -112,11 +112,11 @@ export default {
     // this.drawHeap();
   },
   watch: {
-    heapObjects: function(oldheap, newheap) {
-      console.log("heap changed!! I love you");
+    heapObjectn(oldheap, newheap) {
+      console.log'heap changed!! I love you'");
       this.drawHeap();
-    }
-  }
+     ,}
+   ,}
 };
 </script>
 

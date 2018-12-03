@@ -8,16 +8,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import HelloWorld from "./components/HelloWorld.vue";
-import Heap from "./components/Heap.vue";
-import HeapCanvas from "./components/HeapCanvas.vue";
+import { Component, Vue } from 'vue-property-decorator';
+import HelloWorld from './components/HelloWorld.vue';
+import Heap from './components/Heap.vue';
+import HeapCanvas from './components/HeapCanvas.vue';
 @Component({
   components: {
     HelloWorld,
     Heap,
-    HeapCanvas
-  }
+    HeapCanvas,
+  },
 })
 export default class App extends Vue {}
 </script>
