@@ -3,21 +3,21 @@
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
     <!-- <HelloWorld msg="Welcome to Your ssssVue.js + TypeScript App"/> -->
     <Heap/>
-    <HeapCanvas style="background-color: black; width:100%; height: 5em;"/>
+    <!-- <HeapCanvas style="background-color: black; width:100%; height: 5em;"/> -->
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from './components/HelloWorld.vue';
-import Heap from './components/Heap.vue';
-import HeapCanvas from './components/HeapCanvas.vue';
+import { Component, Vue } from "vue-property-decorator";
+import HelloWorld from "./components/HelloWorld.vue";
+import Heap from "./components/Heap.vue";
+import HeapCanvas from "./components/HeapCanvas.vue";
 @Component({
   components: {
     HelloWorld,
-    Heap,
     HeapCanvas,
-  },
+    Heap
+  }
 })
 export default class App extends Vue {}
 </script>

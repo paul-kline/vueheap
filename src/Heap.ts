@@ -1,4 +1,4 @@
-import HeapObject from './HeapObject';
+import HeapObject from "./HeapObject";
 // Array.prototype.insert = function(index, item) {
 //   this.splice(index, 0, item);
 // };
@@ -6,19 +6,19 @@ import HeapObject from './HeapObject';
 export default class Heap {
   public objects: HeapObject[];
   public allocate: (heapobj: HeapObject) => HeapObject;
-  constructor(public size: number = 100, public allocationMethod = 'first-fit') {
+  constructor(public size: number = 100, public allocationMethod = "first-fit") {
     this.objects = [];
     this.allocate = this.setAllocationMethod(allocationMethod);
   }
   public setAllocationMethod(method: string): (heapObj: HeapObject) => HeapObject {
     switch (method) {
-      case 'first-fit':
+      case "first-fit":
         this.allocate = this.firstfit;
         break;
-      case 'best-fit':
+      case "best-fit":
         this.allocate = this.bestfit;
         break;
-      case 'worst-fit':
+      case "worst-fit":
         this.allocate = this.worstfit;
         break;
       default:
@@ -34,8 +34,29 @@ export default class Heap {
     const o = new HeapObject(size);
     this.allocate(o);
   }
+  public setSize(newSize: number) {
+    if (newSize >= this.size) {
+      //everything is fine
+      this.size = newSize;
+      return { success: true };
+    } else {
+      //we are shrinking. dat cool?
+      const end = () => this.objects[this.objects.length - 1].end;
+      if (this.objects.length == 0 || end() <= newSize) {
+        //all is well.
+        this.size = newSize;
+        return { success: true };
+      } else {
+        return { success: false, desiredSize: newSize, currentSize: this.size, maxSpace: end() - 1 };
+      }
+    }
+  }
+  public addObject(heapObj: HeapObject): HeapObject {
+    return this.allocate(heapObj);
+  }
   public removeRandom() {
-    if ((this.objects.length = 0)) {
+    if (this.objects.length == 0) {
+      console.log("can't delete. it's empty!");
       return;
     }
     this.removeObjectAtIndex(Math.floor(Math.random() * this.objects.length));
@@ -48,7 +69,7 @@ export default class Heap {
 
     // check the special case that this is the first object being allocated ever.
     if (this.objects.length == 0) {
-      console.log('first allocation');
+      // console.log("first allocation");
       gap = this.size; // 1
       heapobj.position = 0; // 2
     } else if (index >= this.objects.length) {
@@ -130,7 +151,7 @@ export default class Heap {
           bestdiff = gap - heapobj.size;
         }
       } else {
-        throw new Error('the position property is not set!!!');
+        throw new Error("the position property is not set!!!");
       }
     }
     const lst = this.objects[this.objects.length - 1];
@@ -161,10 +182,10 @@ export default class Heap {
     const lst = this.objects[this.objects.length - 1];
     gap = this.size - lst.end;
     if (gap >= heapobj.size && gap - heapobj.size > bestdiff) {
-      console.log('setting new best index! it was last!');
+      // console.log("setting new best index! it was last!");
       bestindex = this.objects.length;
     }
-    console.log('worst gap:', gap, 'worst index:', bestindex);
+    // console.log("worst gap:", gap, "worst index:", bestindex);
     this.insertBefore(bestindex, heapobj);
     return heapobj;
   }

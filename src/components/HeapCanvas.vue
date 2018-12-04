@@ -9,8 +9,9 @@
 </template>
 
 <script lang="ts">
-import Heap fro m'../Heap'";
-import HeapObject fro m'../HeapObject'";
+import Vue from "vue";
+import Heap from "../Heap";
+import HeapObject from "../HeapObject";
 function interpolate(w: number, wi: number, xi: number): number {
   return (w * xi) / wi;
 }
@@ -18,46 +19,49 @@ export default {
   props: {
     heap: {
       type: Heap,
-      default: () => new Heap( ,)
+      default: () => new Heap()
     },
     objectcolor: {
       type: String,
-      default :'green' ,"
-     ,}
+      default: "green"
+    }
   },
-  datn() {
+  data: function() {
     return {
-      canvas : >nul as HTMLCanvasElementl,
-      ctx : >nul as CanvasRenderingContext2D ,l
+      canvas: null,
+      ctx: null
     };
   },
   computed: {
-    heapObjectn() {
+    heapObject: function() {
       return this.heap.objects;
-     ,}
+    },
+    heapSize: function() {
+      return this.heap.size;
+    }
   },
   methods: {
-    clicked(evt) {
-      // console.log("got clicked", evt);
+    clicked: function(evt) {
+      console.log("got clicked", evt);
       const trueCoords = interpolate(
         this.canvas.width,
         this.canvas.clientWidth,
-        evt.offset ,X
+        evt.offsetX
       );
       this.canvasclick(trueCoords);
     },
-    alloc(heapObj: HeapObject) {
+    alloc: function(heapObj: HeapObject) {
       try {
         this.heap.allocate(heapObj);
         this.drawObj(heapObj);
       } catch (e) {
-        this.$emit'alloc-error'", e);
-        console.log'visual heap could not allocate:'", e);
+        this.$emit("alloc-error", e);
+        console.log("visual heap could not allocate:", e);
       }
     },
-    drawObj(heapObj: HeapObject, color = this.objectcolor) {
+    drawObj: function(heapObj: HeapObject, color = this.objectcolor) {
       const totalpx = this.canvas.width;
-      // console.log(this.canvas.width);
+
       const leftOffset = interpolate(totalpx, this.heap.size, heapObj.position);
       const rightOffset = interpolate(totalpx, this.heap.size, heapObj.end);
       // console.log("left:", leftOffset, "right:", rightOffset);
@@ -66,25 +70,25 @@ export default {
         leftOffset,
         0,
         rightOffset - leftOffset,
-        this.canvas.heigh ,t
+        this.canvas.height
       );
 
-      this.ctx.strokeStyle  ='black'";
+      this.ctx.strokeStyle = "black";
       this.ctx.strokeRect(
         leftOffset,
         0,
         rightOffset - leftOffset,
-        this.canvas.heigh ,t
+        this.canvas.height
       );
       // ctx.fillRect(10, 10, 150, 100);
     },
-    canvasclick(offset: number) {
-      // console.log("canv width", this.canvas.width, "offsetX", offset);
+    canvasclick: function(offset: number) {
+      console.log("canv width", this.canvas.width, "offsetX", offset);
       // floor because can't start on fraction. must exist to left a little if partial
       const heapLoc = Math.floor(
-        interpolate(this.heap.size, this.canvas.width, offset ,)
+        interpolate(this.heap.size, this.canvas.width, offset)
       );
-      // console.log("heap location:", heapLoc);
+      console.log("heap location:", heapLoc);
       const heapObj = this.heap.objAtLoc(heapLoc);
       // console.table(heapObj);
       if (heapObj) {
@@ -92,31 +96,29 @@ export default {
         this.drawHeap();
       }
     },
-    drawHeap() {
+    drawHeap: function() {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       for (let i = 0; i < this.heap.objects.length; i++) {
         const element = this.heap.objects[i];
         this.drawObj(element);
       }
-     ,}
+    }
   },
-  mounten() {
+  mounted: function() {
     this.canvas = this.$refs.heapcanvas;
-    this.ctx = this.canvas.getContext'2d'");
-    // console.log("my heap is", this.heap);
-    this.heap.addRandom();
-    setTimeout(() => {
-      // console.log("adding elem in settimeout");
-      this.heap.addRandom();
-    }, 2000);
-    // this.drawHeap();
+    this.ctx = this.canvas.getContext("2d");
+    // this.heap.addRandom();
   },
   watch: {
-    heapObjectn(oldheap, newheap) {
-      console.log'heap changed!! I love you'");
+    heapObject: function(oldheap: Heap, newheap: Heap) {
+      // console.log("heap changed!! I love you");
       this.drawHeap();
-     ,}
-   ,}
+    },
+    heapSize: function(oldsize: number, newsize: number) {
+      // console.log("heap canvas detected size change");
+      this.drawHeap();
+    }
+  }
 };
 </script>
 
